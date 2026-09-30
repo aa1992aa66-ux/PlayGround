@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MAZINGER Z VS GREAT MAZINGER — 3D Mecha Action</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="vignette"></div>
+<div id="flash"></div>
+
+<!-- ===== MAIN MENU ===== -->
+<div id="menu" class="screen">
+  <div class="menu-bg-tint"></div>
+  <div class="menu-inner">
+    <div class="game-logo"><span class="lz">MAZINGER Z</span><span class="vs">VS</span><span class="lg">GREAT MAZINGER</span></div>
+    <div class="subtitle">لعبة قتال وأكشن ثلاثية الأبعاد — روبوتات عملاقة | 3D Mecha Action</div>
+    <div class="menu-buttons">
+      <button class="mbtn primary" id="btnStart">▶ بدء اللعبة</button>
+      <button class="mbtn" id="btnSelect">🤖 اختيار الشخصية</button>
+      <button class="mbtn" id="btnTraining">🎯 التدريب</button>
+      <button class="mbtn" id="btnFlightMode">✈️ وضع الطيران</button>
+      <button class="mbtn" id="btnBoss">👹 قتال الزعيم</button>
+      <button class="mbtn" id="btnSettings">⚙️ الإعدادات</button>
+      <button class="mbtn" id="btnStatus">📋 حالة الأنظمة</button>
+      <button class="mbtn danger" id="btnExit">✕ الخروج</button>
+    </div>
+    <div class="menu-footer">WASD حركة • مسافة قفز • J هجوم • K ثقيل • E دخول/خروج • F تعزيز • C كاميرا • يد بلوتوث + لمس مدعومة</div>
+  </div>
+</div>
+
+<!-- ===== CHARACTER SELECT ===== -->
+<div id="select" class="screen hidden">
+  <h2>اختر مقاتلك — Choose Your Mecha</h2>
+  <div class="sel-cards">
+    <div class="sel-card" id="cardZ">
+      <h3>MAZINGER Z</h3>
+      <div class="stat">⚔️ الهجوم <div class="bar"><i style="width:82%"></i></div></div>
+      <div class="stat">🛡️ الدفاع <div class="bar"><i style="width:75%"></i></div></div>
+      <div class="stat">⚡ السرعة <div class="bar"><i style="width:60%"></i></div></div>
+      <div class="stat">🔥 الطاقة <div class="bar"><i style="width:80%"></i></div></div>
+      <p class="skills">Rocket Punch • Breast Fire • Rust Hurricane • Iron Cutter • Missile</p>
+      <button class="mbtn primary" data-pick="Z">اختيار Mazinger Z</button>
+    </div>
+    <div class="sel-card" id="cardG">
+      <h3>GREAT MAZINGER</h3>
+      <div class="stat">⚔️ الهجوم <div class="bar"><i style="width:90%"></i></div></div>
+      <div class="stat">🛡️ الدفاع <div class="bar"><i style="width:65%"></i></div></div>
+      <div class="stat">⚡ السرعة <div class="bar"><i style="width:80%"></i></div></div>
+      <div class="stat">🔥 الطاقة <div class="bar"><i style="width:75%"></i></div></div>
+      <p class="skills">Thunder Break • Blade • Scramble Dash • Breast Burn • Atomic Punch</p>
+      <button class="mbtn primary" data-pick="G">اختيار Great Mazinger</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>مستوى البوت: <select id="difficulty">
+      <option value="0">سهل Easy</option><option value="1" selected>عادي Normal</option>
+      <option value="2">صعب Hard</option><option value="3">مستحيل Impossible</option>
+    </select></label>
+    <label>الساحة: <select id="arenaSel"><option value="arena">الساحة النهائية</option><option value="city">المدينة</option><option value="desert">الصحراء</option></select></label>
+    <button class="mbtn" id="btnBackMenu">رجوع</button>
+  </div>
+  <p class="hint">اسحب لتدوير الروبوت المعروض • الروبوت الآخر يتحكم به الذكاء الاصطناعي</p>
+</div>
+
+<!-- ===== SETTINGS ===== -->
+<div id="settings" class="screen hidden">
+  <h2>الإعدادات</h2>
+  <div class="set-grid">
+    <label>الجودة <select id="setQuality"><option>Low</option><option selected>Medium</option><option>High</option><option>Ultra</option></select></label>
+    <label>الإطارات <select id="setFps"><option>30 FPS</option><option selected>60 FPS</option></select></label>
+    <label>الموسيقى <input type="range" id="setMusic" min="0" max="100" value="60"></label>
+    <label>المؤثرات <input type="range" id="setSfx" min="0" max="100" value="80"></label>
+    <label>اهتزاز الكاميرا <input type="checkbox" id="setShake" checked></label>
+    <label>إظهار الضرر <input type="checkbox" id="setDmgNum" checked></label>
+  </div>
+  <div class="row"><button class="mbtn primary" id="btnSaveSettings">حفظ</button><button class="mbtn" id="btnBackMenu2">رجوع</button></div>
+</div>
+
+<!-- ===== STATUS ===== -->
+<div id="status" class="screen hidden">
+  <h2>حالة الأنظمة — System Status</h2>
+  <ul id="statusList"></ul>
+  <button class="mbtn" id="btnBackMenu3">رجوع</button>
+</div>
+
+<!-- ===== CINEMATIC BAR ===== -->
+<div id="cine" class="hidden">
+  <div id="cineText"></div>
+  <button id="btnSkipCine">تخطي ⏩</button>
+</div>
+
+<!-- ===== HUD ===== -->
+<div id="hud" class="hidden">
+  <div id="topbars">
+    <div class="fighter left"><div class="fname" id="nameP">MAZINGER Z</div>
+      <div class="hp"><i id="hpP"></i></div><div class="en"><i id="enP"></i></div><div class="sp"><i id="spP"></i></div>
+      <div class="mode-tag" id="modeP">🤖 ROBOT</div>
+    </div>
+    <div id="timer">02:00</div>
+    <div class="fighter right"><div class="fname" id="nameE">GREAT MAZINGER</div>
+      <div class="hp"><i id="hpE"></i></div><div class="en"><i id="enE"></i></div><div class="sp"><i id="spE"></i></div>
+      <div class="mode-tag" id="modeE">🤖 ROBOT</div>
+    </div>
+  </div>
+  <div id="prompt"></div>
+  <div id="dmgfeed"></div>
+  <div id="touchUI">
+    <div id="joyL"><div id="stickL"></div></div>
+    <div id="btnsR">
+      <button data-a="jump">⤒</button><button data-a="atk">👊</button><button data-a="heavy">💥</button>
+      <button data-a="skill">✨</button><button data-a="block">🛡️</button><button data-a="dodge">💨</button>
+      <button data-a="exit">🚪</button><button data-a="boost">🚀</button><button data-a="cam">📷</button><button data-a="ult">☄️</button>
+    </div>
+  </div>
+  <div id="pcBar">
+    <span>J هجوم</span><span>K ثقيل</span><span>1-4 مهارات</span><span>Q نهائي</span><span>E دخول/خروج</span><span>F تعزيز</span><span>C كاميرا</span><span>V قمرة</span><span>B صد</span>
+  </div>
+</div>
+
+<div id="endScreen" class="screen hidden">
+  <h1 id="endTitle">🏆 VICTORY</h1>
+  <p id="endDesc"></p>
+  <div class="row"><button class="mbtn primary" id="btnRematch">🔄 إعادة القتال</button><button class="mbtn" id="btnToMenu">القائمة الرئيسية</button></div>
+</div>
+
+<div id="loading"><div class="spin"></div><p>جاري بناء العالم ثلاثي الأبعاد...</p></div>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
