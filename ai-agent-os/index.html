@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI AGENT OS — كل الذكاء الاصطناعي في مكان واحد</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#04081a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="splash"><div class="logo-cube">🔷</div><div class="splash-title">AI AGENT <span>OS</span></div>
+<div class="splash-sub">Android AI Agent Operating Environment — كل الذكاء الاصطناعي في مكان واحد</div>
+<div class="splash-feats"><div><b>🤖</b>وكلاء متعددون</div><div><b>🧠</b>نماذج متعددة</div><div><b>⚡</b>الذكاء يعمل</div><div><b>🛡️</b>وضع الوسائط</div><div><b>💻</b>التطوير</div><div><b>🎮</b>الألعاب</div><div><b>🎬</b>الفيديو</div><div><b>📷</b>عن بعد</div></div>
+<div class="splash-tag">Think • Build • Create • Together</div></div>
+
+<div id="app">
+  <div class="screen active" id="s-home"></div><div class="screen" id="s-projects"></div>
+  <div class="screen" id="s-project"></div><div class="screen" id="s-agents"></div>
+  <div class="screen" id="s-chat"></div><div class="screen" id="s-telegram"></div>
+  <div class="screen" id="s-video"></div><div class="screen" id="s-models"></div>
+  <div class="screen" id="s-ide"></div><div class="screen" id="s-dash"></div>
+  <div class="screen" id="s-assistant"></div><div class="screen" id="s-more"></div>
+  <div class="screen" id="s-vault"></div><div class="screen" id="s-tasks"></div>
+  <div class="screen" id="s-memory"></div><div class="screen" id="s-workers"></div>
+  <div class="screen" id="s-terminal"></div><div class="screen" id="s-files"></div>
+  <div class="screen" id="s-studio"></div><div class="screen" id="s-approvals"></div>
+  <div class="screen" id="s-diag"></div><div class="screen" id="s-settings"></div>
+  <div class="screen" id="s-creation"></div>
+
+  <nav id="bottomnav">
+    <button data-nav="home" class="on" onclick="nav('home')"><b>🏠</b>الرئيسية</button>
+    <button data-nav="projects" onclick="nav('projects')"><b>📁</b>المشاريع</button>
+    <button data-nav="agents" onclick="nav('agents')"><b>🤖</b>الوكلاء</button>
+    <button data-nav="more" onclick="nav('more')"><b>⋯</b>المزيد</button>
+  </nav>
+</div>
+<div id="scrim" onclick="closeDrawer()"></div>
+<aside id="drawer">
+  <div class="row"><div class="logo" style="width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#8b5cf6)">🔷</div>
+  <div><b>AI AGENT OS</b><div class="mut">منصة الذكاء الشاملة على أندرويد</div></div></div>
+  <div class="chip g" style="margin:8px 0">مستخدم Pro 👑</div>
+  <a onclick="nav('home')">🏠 الرئيسية</a><a onclick="nav('projects')">📁 المشاريع</a>
+  <a onclick="nav('agents')">🤖 الوكلاء</a><a onclick="nav('chat')">💬 المحادثة</a>
+  <a onclick="nav('video')">🎬 التطوير</a><a onclick="nav('video')">🎬 الفيديو</a>
+  <a onclick="nav('terminal')">🖥️ الوسائط</a><a onclick="nav('vault')">🔑 المهام</a>
+  <a onclick="nav('workers')">👷 الموارد</a><a onclick="nav('settings')">⚙️ الإعدادات</a>
+</aside>
+<div class="toast" id="toast"></div>
+<script type="importmap">
+{"imports":{"@webcontainer/api":"https://cdn.jsdelivr.net/npm/@webcontainer/api@1.1.0/+esm","@ffmpeg/ffmpeg":"https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js","@ffmpeg/util":"https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/+esm"}}
+</script>
+<script src="js/core.js"></script><script src="js/data.js"></script><script src="js/app.js"></script>
+<script type="module" src="js/real.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}</script>
+</body>
+</html>
